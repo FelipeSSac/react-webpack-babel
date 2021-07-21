@@ -8,6 +8,7 @@ This project has been setted with the following technologies:
 
 - [React](https://reactjs.org/)
 - [React DOM](https://pt-br.reactjs.org/docs/react-dom.html)
+- [Styled Components](https://styled-components.com/)
 - [WebPack](https://webpack.js.org/)
 - [Babel](https://babeljs.io/)
 
