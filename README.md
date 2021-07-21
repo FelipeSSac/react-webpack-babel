@@ -1,6 +1,6 @@
 <h1 align="center">React without C.R.A.</h1>
 
-<h1 align="center"><img src="./img/nocra.png" /></h1>
+<h1 align="center"><img src="./src/img/nocra.png" /></h1>
 
 ## ✨ Technologies
 

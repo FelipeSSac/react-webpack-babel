@@ -1,52 +1,37 @@
-import React, { useState } from 'react';
+import React, { createContext ,useMemo, useState } from 'react';
+import { ThemeProvider } from 'styled-components';
 
-import Header from './Header';
-import Post from './Post';
+import GlobalStyle from './styles/global';
+import Layout from './components/Layout';
 
-export default function App() {
-  const [posts, setPosts] = useState([
-    { id: Math.random() ,title: 'Title#01', subtitle: 'subtitle#01', likes: 20, read: true },
-    { id: Math.random() ,title: 'Title#02', subtitle: 'subtitle#02', likes: 10, read: false },
-    { id: Math.random() ,title: 'Title#03', subtitle: 'subtitle#03', likes: 50, read: false },
-  ]);
+import themes from './styles/themes';
 
-  function handleRefresh() {
-    setPosts((prevState) => [
-      ...prevState,
-      { 
-        id: Math.random() ,
-        title: `Title#${prevState.length+1}`, 
-        subtitle: `subtitle#${prevState.length+1}`, 
-        likes: 50
-      }
-    ]);
+export const ThemePropsContext = createContext();
+
+function App() {
+  const [theme, setTheme] = useState('dark');
+
+  const currentTheme = useMemo(() => {
+    return themes[theme] || themes.dark;  
+  }, [theme]);
+
+  function handleToggleTheme() {
+    setTheme(prevTheme => prevTheme === 'dark' ? 'light' : 'dark');
   }
 
-  function handleRemove(postId) {
-    setPosts((prevState) => (
-      prevState.filter((post) => post.id !== postId)
-    ))
-  }
-  
-  return(
-    <>
-      <Header>
-        <h2>
-          Posts da semana
-          <button onClick={handleRefresh} >Atualizar</button>
-        </h2>
-      </Header>
-
-      <hr />
-
-      {posts.map(post => (
-        <Post 
-          key={ post.title }
-          likes = { post.likes }
-          onRemove={ handleRemove }
-          post = {post}
-        />
-      ))}
-    </>
-  )
+  return (
+    <ThemeProvider theme={currentTheme}>
+      <ThemePropsContext.Provider 
+        value={{
+          theme,
+          handleToggleTheme
+        }}
+      >
+        <GlobalStyle />
+        <Layout/>
+      </ThemePropsContext.Provider>
+    </ThemeProvider>
+  );
 };
+
+export default App;
